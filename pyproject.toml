@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "casbin_motor_adapter"
+version = "0.1.0"
+description = "Motor Adapter for PyCasbin"
+authors = ["wf-yamaday <wf.yamaday.job@gmail.com>"]
+license = "Apache License 2.0"
+readme = "README.md"
+packages = [{include = "casbin_motor_adapter"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+casbin = "^1.27.0"
+motor = "^3.3.1"
+
+
+[tool.poetry.group.dev.dependencies]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
