@@ -141,6 +141,6 @@ class TestConfig(IsolatedAsyncioTestCase):
         model.add_policy("p", "p", ("alice", "data4", "read"))
 
         adapter = e.get_adapter()
-        adapter.save_policy(model)
+        await adapter.save_policy(model)
 
         self.assertTrue(e.enforce("alice", "data4", "read"))
