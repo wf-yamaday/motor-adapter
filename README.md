@@ -1,4 +1,4 @@
-# motor-adapter
+# Motor Adapter for PyCasbin
 
 [Motor](https://motor.readthedocs.io/en/stable/) adapter for [PyCasbin](https://github.com/casbin/pycasbin).  
 With this library, Casbin can load policy from MongoDB or save policy to it.
