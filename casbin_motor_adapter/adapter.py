@@ -59,9 +59,10 @@ class Adapter(persist.Adapter):
         """Create an adapter for Mongodb
 
         Args:
-            uri (str): This should be the same requiement as motor Client's 'uri' parameter.
+            uri (str): MongoDB's connection strings.
             dbname (str): Database to store policy.
-            collection (str, optional): Collection of the choosen database. Defaults to "casbin_rule".
+            collection (str, optional): Collection of the choosen database.\n
+            Defaults to "casbin_rule".
         """
         client = AsyncIOMotorClient(uri)
         db = client[dbname]
@@ -161,12 +162,14 @@ class Adapter(persist.Adapter):
 
     async def remove_filtered_policy(self, sec, ptype, field_index, *field_values):
         """Remove policy rules taht match the filter from the storage.
-           This is part of the Auto-Save feature.
+            This is part of the Auto-Save feature.
 
         Args:
             ptype (str): Policy type, 'g', 'g2', 'p', etc.
             rule (CasbinRule): Casbin rule will be removed
-            field_index (int): The policy index at which the filed_values begins filtering. Its range is [0, 5]
+            field_index (int):\n
+                The policy index at which the filed_values begins filtering.\n
+                Its range is [0, 5].
             field_values(List[str]): A list of rules to filter policy which starts from
 
         Returns:
