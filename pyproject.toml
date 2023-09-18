@@ -8,13 +8,14 @@ readme = "README.md"
 packages = [{include = "casbin_motor_adapter"}]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.12"
+python = ">=3.6,<3.12"
 casbin = "^1.27.0"
 motor = "^3.3.1"
 
 
 [tool.poetry.group.dev.dependencies]
 coveralls = "^3.3.1"
+tox = "^4.11.3"
 
 [build-system]
 requires = ["poetry-core"]
