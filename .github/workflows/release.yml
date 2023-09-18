@@ -1,0 +1,51 @@
+name: Release
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Next Version"
+        required: true
+        default: "0.0.1"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install poetry
+        run: pipx install poetry
+
+      - name: PyPI Settings
+        run: poetry config pypi-token.pypi ${{ secrets.PYPI_API_KEY }}
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        id: poetry_cache_id
+        with:
+          python-version: 3.10
+          cache: "poetry"
+
+      - name: Install dependencies
+        if: steps.poetry_cache_id.outputs.cache-hit != 'true'
+        run: poetry install
+
+      - name: Add poetry-version-plugin
+        run: poetry self add poetry-version-plugin
+
+      - name: 
+        run: git tag v${{ github.event.inputs.version }}
+
+      - name: Builf package
+        run: poetry build
+
+      - name: Publsih pacakge
+        run: poetry publish
+
+      - uses: ncipollo/release-action@v1
+        with:
+          name: Release v${{ github.event.inputs.version }}
