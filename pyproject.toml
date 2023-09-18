@@ -17,6 +17,7 @@ motor = "^3.3.1"
 coveralls = "^3.3.1"
 tox = "^4.11.3"
 ruff = "^0.0.290"
+coverage = "^6.5.0"
 
 [build-system]
 requires = ["poetry-core"]
