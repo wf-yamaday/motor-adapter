@@ -1,7 +1,12 @@
 # Motor Adapter for PyCasbin
-
-[![Test](https://github.com/wf-yamaday/motor-adapter/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/wf-yamaday/motor-adapter/actions/workflows/ci.yml)
+[![Test](https://github.com/wf-yamaday/motor-adapter/actions/workflows/ci-test.yml/badge.svg)](https://github.com/wf-yamaday/motor-adapter/actions/workflows/ci-test.yml)
+[![Lint](https://github.com/wf-yamaday/motor-adapter/actions/workflows/ci-lint.yml/badge.svg)](https://github.com/wf-yamaday/motor-adapter/actions/workflows/ci-lint.yml)
+[![Release](https://github.com/wf-yamaday/motor-adapter/actions/workflows/release.yml/badge.svg)](https://github.com/wf-yamaday/motor-adapter/actions/workflows/release.yml)
 [![Coverage Status](https://coveralls.io/repos/github/wf-yamaday/motor-adapter/badge.svg?branch=main)](https://coveralls.io/github/wf-yamaday/motor-adapter?branch=main)
+![PyPI - Version](https://img.shields.io/pypi/v/casbin_motor_adapter)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/casbin_motor_adapter)
+![PyPI - License](https://img.shields.io/pypi/l/casbin_motor_adapter)
+
 
 [Motor](https://motor.readthedocs.io/en/stable/) adapter for [PyCasbin](https://github.com/casbin/pycasbin).  
 With this library, Casbin can load policy from MongoDB or save policy to it.

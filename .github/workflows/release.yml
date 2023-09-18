@@ -39,8 +39,10 @@ jobs:
       - name: Add poetry-version-plugin
         run: poetry self add poetry-version-plugin
 
-      - name: 
-        run: git tag v${{ github.event.inputs.version }}
+      - name: Create tag and push to GitHub
+        run: |
+          git tag v${{ github.event.inputs.version }}
+          git push origin v${{ github.event.inputs.version }}
 
       - name: Builf package
         run: poetry build
@@ -51,3 +53,4 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           name: Release v${{ github.event.inputs.version }}
+          tag: v${{ github.event.inputs.version }}
