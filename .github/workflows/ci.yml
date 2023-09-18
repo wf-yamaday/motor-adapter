@@ -40,4 +40,4 @@ jobs:
         run: poetry install
 
       - name: Run tests
-        run: tox -e py
+        run: poetry run tox -e py
