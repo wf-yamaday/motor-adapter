@@ -43,7 +43,7 @@ jobs:
         run: poetry run tox -e py
 
       - name: Upload coverage data to coveralls.io
-        run: coveralls --service=github
+        run: poetry run coveralls --service=github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_FLAG_NAME: ${{ matrix.os }} - ${{ matrix.python-version }}
