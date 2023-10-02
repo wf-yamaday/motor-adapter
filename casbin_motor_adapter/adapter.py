@@ -16,6 +16,16 @@ from casbin import persist
 from motor.motor_asyncio import AsyncIOMotorClient
 
 
+class Filter:
+    ptype = []
+    v0 = []
+    v1 = []
+    v2 = []
+    v3 = []
+    v4 = []
+    v5 = []
+
+
 class CasbinRule:
     """
     CasbinRule model
@@ -55,7 +65,7 @@ class CasbinRule:
 class Adapter(persist.Adapter):
     """the interface for Casbin adapters."""
 
-    def __init__(self, uri, dbname, collection="casbin_rule"):
+    def __init__(self, uri, dbname, collection="casbin_rule", filtered=False):
         """Create an adapter for Mongodb
 
         Args:
@@ -67,6 +77,8 @@ class Adapter(persist.Adapter):
         client = AsyncIOMotorClient(uri)
         db = client[dbname]
         self._collection = db[collection]
+
+        self._filtered = filtered
 
     async def load_policy(self, model):
         """Implementing add Interface for casbin. Load all policy rules from mongodb
@@ -83,6 +95,33 @@ class Adapter(persist.Adapter):
                 setattr(rule, key, value)
 
             persist.load_policy_line(str(rule), model)
+
+    def is_filtered(self):
+        return self._filtered
+
+
+    async def load_filtered_policy(self, model, filter):
+        """ Load filtered policy rules from mongodb
+
+        Args:
+            model (CasbinRule): CasbinRule object
+            filter (Filter): Filter rule object
+        """
+        query = {}
+        for attr in ("ptype", "v0", "v1", "v2", "v3", "v4", "v5"):
+            if len(getattr(filter, attr)) > 0:
+                value = getattr(filter, attr)
+                query[attr] = {'$in': value}
+
+        async for line in self._collection.find(query):
+            if "ptype" not in line:
+                continue
+            rule = CasbinRule(line["ptype"])
+            for key, value in line.items():
+                setattr(rule, key, value)
+
+            persist.load_policy_line(str(rule), model)
+        self._filtered = True
 
     async def _save_policy_line(self, ptype, rule):
         line = CasbinRule(ptype=ptype)
