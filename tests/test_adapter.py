@@ -269,3 +269,24 @@ class TestConfig(IsolatedAsyncioTestCase):
         self.assertTrue(e.enforce("bob", "data2", "write"))
         self.assertFalse(e.enforce("data2_admin", "data2", "read"))
         self.assertTrue(e.enforce("data2_admin", "data2", "write"))
+
+    async def test_filtered_policy_with_raw_query(self):
+        """
+        test filtered_policy
+        """
+        e = await get_enforcer()
+        filter = Filter()
+        filter.raw_query = {
+            "ptype": "p",
+            "v0": {"$in": ["alice", "bob"]}
+        }
+
+        await e.load_filtered_policy(filter)
+        self.assertTrue(e.enforce("alice", "data1", "read"))
+        self.assertFalse(e.enforce("alice", "data1", "write"))
+        self.assertFalse(e.enforce("alice", "data2", "read"))
+        self.assertFalse(e.enforce("alice", "data2", "write"))
+        self.assertFalse(e.enforce("bob", "data1", "read"))
+        self.assertFalse(e.enforce("bob", "data1", "write"))
+        self.assertFalse(e.enforce("bob", "data2", "read"))
+        self.assertTrue(e.enforce("bob", "data2", "write"))
