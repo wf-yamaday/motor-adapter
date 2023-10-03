@@ -25,6 +25,10 @@ class Filter:
     v4 = []
     v5 = []
 
+    # `raw_query` expected dict.
+    # if set `raw_query`, all other filters are ignored
+    raw_query = None
+
 
 class CasbinRule:
     """
@@ -108,10 +112,13 @@ class Adapter(persist.Adapter):
             filter (Filter): Filter rule object
         """
         query = {}
-        for attr in ("ptype", "v0", "v1", "v2", "v3", "v4", "v5"):
-            if len(getattr(filter, attr)) > 0:
-                value = getattr(filter, attr)
-                query[attr] = {'$in': value}
+        if getattr(filter, "raw_query", None) is None:
+            for attr in ("ptype", "v0", "v1", "v2", "v3", "v4", "v5"):
+                if len(getattr(filter, attr)) > 0:
+                    value = getattr(filter, attr)
+                    query[attr] = {'$in': value}
+        else:
+            query = getattr(filter, "raw_query")
 
         async for line in self._collection.find(query):
             if "ptype" not in line:
