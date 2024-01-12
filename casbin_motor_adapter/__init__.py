@@ -1,5 +1,3 @@
 from .adapter import Adapter
 
-__all__ = [
-    "Adapter"
-]
+__all__ = ["Adapter"]

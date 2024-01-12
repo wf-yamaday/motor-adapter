@@ -27,6 +27,7 @@ def get_fixture(path):
     dir_path = os.path.split(os.path.realpath(__file__))[0] + "/"
     return os.path.abspath(dir_path + path)
 
+
 async def get_enforcer():
     adapter = Adapter("mongodb://localhost:27017", "casbin_test")
 
@@ -47,12 +48,13 @@ async def get_enforcer():
     await e.load_policy()
     return e
 
+
 async def clear_db(dbname: str):
     client = AsyncIOMotorClient("mongodb://localhost:27017")
     await client.drop_database(dbname)
 
-class TestConfig(IsolatedAsyncioTestCase):
 
+class TestConfig(IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
         await clear_db("casbin_test")
 
@@ -276,10 +278,7 @@ class TestConfig(IsolatedAsyncioTestCase):
         """
         e = await get_enforcer()
         filter = Filter()
-        filter.raw_query = {
-            "ptype": "p",
-            "v0": {"$in": ["alice", "bob"]}
-        }
+        filter.raw_query = {"ptype": "p", "v0": {"$in": ["alice", "bob"]}}
 
         await e.load_filtered_policy(filter)
         self.assertTrue(e.enforce("alice", "data1", "read"))
