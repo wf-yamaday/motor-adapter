@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from casbin import persist
+from casbin.persist.adapters.asyncio.adapter import AsyncAdapter
 from motor.motor_asyncio import AsyncIOMotorClient
 
 
@@ -66,8 +67,8 @@ class CasbinRule:
         return '<CasbinRule :"{}">'.format(str(self))
 
 
-class Adapter(persist.Adapter):
-    """the interface for Casbin adapters."""
+class Adapter(AsyncAdapter):
+    """the interface for Casbin AsyncAdapter."""
 
     def __init__(self, uri, dbname, collection="casbin_rule", filtered=False):
         """Create an adapter for Mongodb
@@ -103,9 +104,8 @@ class Adapter(persist.Adapter):
     def is_filtered(self):
         return self._filtered
 
-
     async def load_filtered_policy(self, model, filter):
-        """ Load filtered policy rules from mongodb
+        """Load filtered policy rules from mongodb
 
         Args:
             model (CasbinRule): CasbinRule object
@@ -116,7 +116,7 @@ class Adapter(persist.Adapter):
             for attr in ("ptype", "v0", "v1", "v2", "v3", "v4", "v5"):
                 if len(getattr(filter, attr)) > 0:
                     value = getattr(filter, attr)
-                    query[attr] = {'$in': value}
+                    query[attr] = {"$in": value}
         else:
             query = getattr(filter, "raw_query")
 
